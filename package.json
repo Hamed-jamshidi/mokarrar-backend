@@ -1,0 +1,42 @@
+{
+  "name": "auth_project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "set DEBUG=app:main && nodemon index",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@sequelize/core": "^7.0.0-alpha.10",
+    "auto-bind": "^4.0.0",
+    "axios": "^0.26.0",
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.19.2",
+    "config": "^3.3.7",
+    "cors": "^2.8.5",
+    "debug": "^4.3.3",
+    "express": "^4.17.3",
+    "express-async-errors": "^3.1.1",
+    "express-validation": "^3.0.8",
+    "express-validator": "^6.14.0",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
+    "mongoose": "^6.2.3",
+    "mongoose-timestamp": "^0.6.0",
+    "nodemon": "^2.0.15",
+    "querystring": "^0.2.1",
+    "sequelize": "^6.17.0",
+    "sqlite3": "^5.0.2",
+    "url": "^0.11.0",
+    "winston": "^3.6.0"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.4.1"
+  }
+}
