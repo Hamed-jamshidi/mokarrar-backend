@@ -5,9 +5,9 @@ const controller = require('./controller')
 
 
 
-router.get('/allControls',isLoggined, controller.getAllControls);
+router.get('/allMaterials',isLoggined, controller.getAllMatrials);
 router.get('/deleteControls/:constrolsId',isLoggined, controller.deleteControls);
-router.post('/newControler',isLoggined, controller.createNewControl);
+router.post('/createMaterial',isLoggined, controller.createNewMaterial);
 router.post('/updateControls',isLoggined, controller.editControls);
 
 

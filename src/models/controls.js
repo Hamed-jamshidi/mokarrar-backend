@@ -7,8 +7,8 @@ const sequelize = require("../../startup/db");
 class Controls  extends Model{};
 Controls.init({
   
-  CorntorlCode: { type: DataTypes.INTEGER, required: true ,index:true},
-  ControlName: { type: DataTypes.STRING, required: true },
+  controlCode: { type: DataTypes.INTEGER, required: true ,index:true},
+  controlName: { type: DataTypes.STRING, required: true },
   partition: { type: DataTypes.NUMBER, default: 0 }
  
   

@@ -8,18 +8,11 @@ const { Sequelize, literal, where } = require("sequelize");
 const { search } = require(".");
 const { QueryTypes } = require("sequelize");
 const sequelize = require("../../../startup/db");
-const { condition } = require("sequelize");
-const upsert = async (Model, values, condition) => {
-  const obj = await Model.findOne({
-    where: condition,
-  });
-  if (obj) {
-    return obj.update(values);
-  }
-  return Model.create(values);
-};
 module.exports = new (class extends controller {
-
+  async sayHello(req, res) {
+    this.response({ res, message: "hello!", data: { message: "hello" } });
+    console.log("hello firest api");
+  }
 
   async getAllControls(req, res) {
     try {
@@ -48,36 +41,30 @@ module.exports = new (class extends controller {
     try {
       const { partition } = req.user;
       const { controlCode, controlName } = req.body;
-      const values = {
-        controlCode: controlCode,
-        controlName: controlName,
-        partition: partition
-      };
-      const conditions = {
-        controlCode: controlCode,
-      };
-      console.log("i am here");
-      // const result = await upsert(this.Controles, values, conditions);
-      // this.response({ res, message: "okkkkkkk", data: result });
       const [controler, created] = this.Controles.findOrCreate({
-      where: conditions,
-       defaults:values,
+        where: { ControlCode: controlCode },
+        defaults: {
+          ControlCode: controlCode,
+          controlName: controlName,
+          partition: partition,
+        },
       });
-      console.log("created is : ", created)
-      created? this.response({
+      created
+        ? this.response({
             res,
             message: "new controller created!",
             data: controler,
-          }) : this.response({ res, message: "this control Code exist!", data:controler  });
+          })
+        : this.response({ res, message: "this controlCode ex!", data: result });
     } catch (error) {
       console.log(error.message);
     }
   }
- 
+
   async editControls(req, res) {
     try {
       const { id, controlsCode, controlsName } = req.body;
-      const query = `update controls set controlCode=${controlsCode} , controlName=${controlsName} where id =${id}`;
+      const query = `update controls set CorntrolCode=${controlsCode} , ControlName=${controlsName} where id =${id}`;
       await sequelize
         .query(query)
         .then((item) =>

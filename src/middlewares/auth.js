@@ -9,13 +9,14 @@ const User= require('./../models/user')
 console.log('User', User);
 async function isLoggined(req , res , next){
   const token = req.header("x-auth-token");
+  console.log(token)
   if(!token) res.status(401).send('access denied');
   try{
-    const decoded = jwt.verify(token ,"jalksjdfljladegldhglkdjlkfjalsjajsldj");
+    const decoded = jwt.verify(token ,"sherkatmavadmohandesimokarrar");
     console.log("token",decoded);
     console.log('User', User)
-    const user =  await User.findOne({where:{id :decoded._id}});
-    console.log(user);
+    const user =  await User.findOne({where:{id :decoded.userId}});
+    console.log("user is ",user);
     req.user = user;
     next();
     

@@ -8,23 +8,12 @@ const { Sequelize, literal, where } = require("sequelize");
 const { search } = require(".");
 const { QueryTypes } = require("sequelize");
 const sequelize = require("../../../startup/db");
-const { condition } = require("sequelize");
-const upsert = async (Model, values, condition) => {
-  const obj = await Model.findOne({
-    where: condition,
-  });
-  if (obj) {
-    return obj.update(values);
-  }
-  return Model.create(values);
-};
 module.exports = new (class extends controller {
-
-
-  async getAllControls(req, res) {
+ 
+  async getAllMatrials(req, res) {
     try {
       const { partition } = req.user;
-      const query = `select * from controls where partition=${partition}`;
+      const query = `select * from materials where partition=${partition}`;
       const result = await sequelize.query(query, { type: QueryTypes.SELECT });
       this.response({ res, message: "ok", data: result });
     } catch (error) {
@@ -43,41 +32,37 @@ module.exports = new (class extends controller {
     }
   }
 
-  async createNewControl(req, res) {
+  async createNewMaterial(req, res) {
     console.log("createNewControls");
     try {
       const { partition } = req.user;
-      const { controlCode, controlName } = req.body;
-      const values = {
-        controlCode: controlCode,
-        controlName: controlName,
-        partition: partition
-      };
-      const conditions = {
-        controlCode: controlCode,
-      };
-      console.log("i am here");
-      // const result = await upsert(this.Controles, values, conditions);
-      // this.response({ res, message: "okkkkkkk", data: result });
-      const [controler, created] = this.Controles.findOrCreate({
-      where: conditions,
-       defaults:values,
+      const { materialCode, materialName } = req.body;
+      this.response({res , message:"jsld", data:{"first":req.body , "secound":req.user.partition}})
+      const [material, created] = this.Material.findOrCreate({
+        where: { materialCode },
+        defaults: {
+          materialCode,
+          materialName,
+          partition
+        },
       });
-      console.log("created is : ", created)
-      created? this.response({
-            res,
-            message: "new controller created!",
-            data: controler,
-          }) : this.response({ res, message: "this control Code exist!", data:controler  });
+      console.log('created is : ' , created)
+      // created
+      //   ? this.response({
+      //       res,
+      //       message: "new controller created!",
+      //       data: material,
+      //     })
+      //   : this.response({ res, message: "this controlCode exist!", data: result });
     } catch (error) {
-      console.log(error.message);
+      console.log(error.message); 
     }
   }
- 
+
   async editControls(req, res) {
     try {
       const { id, controlsCode, controlsName } = req.body;
-      const query = `update controls set controlCode=${controlsCode} , controlName=${controlsName} where id =${id}`;
+      const query = `update controls set CorntrolCode=${controlsCode} , ControlName=${controlsName} where id =${id}`;
       await sequelize
         .query(query)
         .then((item) =>

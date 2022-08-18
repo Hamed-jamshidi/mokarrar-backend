@@ -4,7 +4,7 @@ const router = express.Router()
 const controller = require('./controller')
 
 
-
+router.get('/sayhello', controller.sayHello);
 router.get('/allControls',isLoggined, controller.getAllControls);
 router.get('/deleteControls/:constrolsId',isLoggined, controller.deleteControls);
 router.post('/newControler',isLoggined, controller.createNewControl);

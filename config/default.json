@@ -3,7 +3,7 @@
   "db": {
     "address": "mongodb://localhost:27017/authproject"
   },
-  "jwt_key": "jalksjdfljladegldhglkdjlkfjalsjajsldj",
+  "jwt_key": "sherkatmavadmohandesimokarrar",
   "license_generator_address": "http://10.42.0.1:9053/generate",
   "license_generator_auth": ["admin", "admin@123"]
 }
