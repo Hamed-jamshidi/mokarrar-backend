@@ -44,22 +44,22 @@ module.exports = new (class extends controller {
   }
 
   async createNewControl(req, res) {
-    console.log("createNewControls");
+   
     try {
       const { partition } = req.user;
       const { controlCode, controlName } = req.body;
+     
       const values = {
         controlCode: controlCode,
         controlName: controlName,
         partition: partition
       };
       const conditions = {
-        controlCode: controlCode,
+        controlCode
       };
-      console.log("i am here");
-      // const result = await upsert(this.Controles, values, conditions);
-      // this.response({ res, message: "okkkkkkk", data: result });
-      const [controler, created] = this.Controles.findOrCreate({
+     
+     
+      const [controler, created] = await this.Controles.findOrCreate({
       where: conditions,
        defaults:values,
       });
@@ -75,6 +75,7 @@ module.exports = new (class extends controller {
   }
  
   async editControls(req, res) {
+    
     try {
       const { id, controlsCode, controlsName } = req.body;
       const query = `update controls set controlCode=${controlsCode} , controlName=${controlsName} where id =${id}`;

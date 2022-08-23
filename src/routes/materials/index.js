@@ -6,9 +6,9 @@ const controller = require('./controller')
 
 
 router.get('/allMaterials',isLoggined, controller.getAllMatrials);
-router.get('/deleteControls/:constrolsId',isLoggined, controller.deleteControls);
+router.get('/deleteMaterial/:materialId',isLoggined, controller.deleteMaterial);
 router.post('/createMaterial',isLoggined, controller.createNewMaterial);
-router.post('/updateControls',isLoggined, controller.editControls);
+router.post('/updateMaterial',isLoggined, controller.updateMaterial);
 
 
 module.exports = router
