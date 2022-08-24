@@ -6,7 +6,7 @@ class Mission  extends Model{};
 Mission.init({
  
   missionCode: { type: DataTypes.INTEGER, required: true, index:true },
-  missionName: { type: DataTypes.INTEGER, required: true },
+  missionName: { type: DataTypes.STRING, required: true },
   partition: { type: DataTypes.NUMBER, default: 0 }
  
 

@@ -14,10 +14,11 @@ module.exports = new (class extends controller {
     console.log("hello firest api");
   }
 
-  async getAllControls(req, res) {
+  async getAllMissions(req, res) {
     try {
+      console.log("hello")
       const { partition } = req.user;
-      const query = `select * from controls where partition=${partition}`;
+      const query = `select * from missions where partition=${partition}`;
       const result = await sequelize.query(query, { type: QueryTypes.SELECT });
       this.response({ res, message: "ok", data: result });
     } catch (error) {
@@ -25,10 +26,10 @@ module.exports = new (class extends controller {
     }
   }
 
-  async deleteControls(req, res) {
+  async deleteMissions(req, res) {
     try {
-      const id = req.params.constrolsId;
-      const query = `delete from controls where id=${id}`;
+      const id = req.params.missionId;
+      const query = `delete from missions where id=${id}`;
       const result = await sequelize.query(query, { type: QueryTypes.DELETE });
       this.response({ res, message: "row deleted!", data: result });
     } catch (error) {
@@ -36,41 +37,49 @@ module.exports = new (class extends controller {
     }
   }
 
-  async createNewControl(req, res) {
-    console.log("createNewControls");
+  async createNewMission(req, res) {
+    console.log("createNewMissions");
     try {
       const { partition } = req.user;
-      const { controlCode, controlName } = req.body;
-      const [controler, created] = this.Controles.findOrCreate({
-        where: { ControlCode: controlCode },
+      const { missionCode, missionName } = req.body;
+      const [missoin, created] = await this.Mission.findOrCreate({
+        where: { missionCode },
         defaults: {
-          ControlCode: controlCode,
-          controlName: controlName,
-          partition: partition,
+          missionCode,
+          missionName,
+          partition,
         },
       });
+
       created
         ? this.response({
             res,
-            message: "new controller created!",
-            data: controler,
+            message: "new mission created!",
+            data: missoin,
           })
-        : this.response({ res, message: "this controlCode ex!", data: result });
+        : this.response({ res, message: "this mission code exists!", data: missoin });
     } catch (error) {
       console.log(error.message);
     }
   }
 
-  async editControls(req, res) {
+  async updateMission(req, res) {
     try {
-      const { id, controlsCode, controlsName } = req.body;
-      const query = `update controls set CorntrolCode=${controlsCode} , ControlName=${controlsName} where id =${id}`;
+      const { id, missionCode, missionName } = req.body;
+      const result = await this.Mission.findOne({where:{id}})
+  
+    if (result === null ) this.response({res , message:"sorry! this row isnt exist!",data:result})
+     else{
+      const query = `update missions set missionCode=${missionCode} , missionName=${missionName} where id =${id}`;
       await sequelize
         .query(query)
-        .then((item) =>
-          this.response({ res, message: "ok", data: controlsCode })
+        .then(() =>
+          this.response({ res, message: "ok", data: missionCode })
         )
         .catch((error) => console.log(error.message));
+     } 
+ 
+ 
     } catch (error) {
       console.log(error.message);
     }

@@ -74,17 +74,27 @@ module.exports = new (class extends controller {
     }
   }
  
-  async editControls(req, res) {
-    
+  async editControls(req, res) {    
     try {
       const { id, controlsCode, controlsName } = req.body;
-      const query = `update controls set controlCode=${controlsCode} , controlName=${controlsName} where id =${id}`;
-      await sequelize
-        .query(query)
-        .then((item) =>
-          this.response({ res, message: "ok", data: controlsCode })
-        )
-        .catch((error) => console.log(error.message));
+      const result = await this.Mission.findOne({ where: { id } });
+
+      if (result === null)
+        this.response({
+          res,
+          message: "sorry! this row isnt exist!",
+          data: result,
+        });
+        else{
+          const query = `update controls set controlCode=${controlsCode} , controlName=${controlsName} , partition= where id =${id}`;
+          await sequelize
+            .query(query)
+            .then((item) =>
+              this.response({ res, message: "ok", data: controlsCode })
+            )
+            .catch((error) => console.log(error.message));
+        }
+     
     } catch (error) {
       console.log(error.message);
     }

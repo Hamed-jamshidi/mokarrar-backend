@@ -4,11 +4,11 @@ const router = express.Router()
 const controller = require('./controller')
 
 
-router.get('/sayhello', controller.sayHello);
-router.get('/allControls',isLoggined, controller.getAllControls);
-router.get('/deleteControls/:constrolsId',isLoggined, controller.deleteControls);
-router.post('/newControler',isLoggined, controller.createNewControl);
-router.post('/updateControls',isLoggined, controller.editControls);
+
+router.get('/allStations',isLoggined, controller.getAllStations);
+router.get('/deleteStations/:stationId',isLoggined, controller.deleteStations);
+router.post('/newStation',isLoggined, controller.createNewStation);
+router.post('/updateStation',isLoggined, controller.updateStation);
 
 
 module.exports = router

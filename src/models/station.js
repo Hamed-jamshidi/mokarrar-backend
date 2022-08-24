@@ -7,7 +7,7 @@ Station.init({
  
   stationCode: { type: DataTypes.INTEGER, required: true, index:true },
   partition: { type: DataTypes.NUMBER, default: 0 },
-  stationName: { type: DataTypes.INTEGER, required: true },
+  stationName: { type: DataTypes.STRING, required: true },
  
 
 },{

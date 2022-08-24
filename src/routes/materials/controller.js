@@ -36,11 +36,7 @@ module.exports = new (class extends controller {
     try {
       const { partition } = req.user;
       const { materialCode, materialName } = req.body;
-      this.response({
-        res,
-        message: "new material created!",
-        data: { first: req.body, secound: req.user.partition },
-      });
+
       const [material, created] = await this.Material.findOrCreate({
         where: { materialCode },
         defaults: {
@@ -64,14 +60,26 @@ module.exports = new (class extends controller {
 
   async updateMaterial(req, res) {
     try {
-      const { id, materialCode, materialName1 } = req.body;
-      const query = `update materials set materialCode = ${materialCode} , materialName = ${materialName1} where id = ${id}`;
-      await sequelize
-        .query(query)
-        .then((rows) =>
-          this.response({ res , message:"ok", data: materialCode })
-        )
-        .catch((error) => console.log(error.message));
+      const { id, materialCode, materialName } = req.body;
+      const result = await this.Mission.findOne({ where: { id } });
+
+      if (result === null)
+        this.response({
+          res,
+          message: "sorry! this row isnt exist!",
+          data: result,
+        });
+      else {
+        const query = `UPDATE materials
+                       SET materialName = ${materialName} , materialCode = ${materialCode} 
+                       WHERE id = ${id}`;
+        await sequelize
+          .query(query)
+          .then((rows) =>
+            this.response({ res, message: "ok", data: materialCode })
+          )
+          .catch((error) => console.log(error.message));
+      }
     } catch (error) {
       console.log(error.message);
     }
