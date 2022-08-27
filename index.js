@@ -1,10 +1,10 @@
-const express = require('express')
+var express = require('express')
 const app = express()
 const sequelize = require('./startup/db')
 const debug = require('debug')('app:main')
 const config = require('config')
-const winston = require('winston')
 const User = require('./src/models/user')
+const { createProxyMiddleware } = require('http-proxy-middleware');
 // const Credit = require('./src/models/credit')
 // const License = require('./src/models/license')
 const { urlencoded } = require('express')
@@ -27,7 +27,17 @@ require('./startup/logging')()
 
 // const p = Promise.reject(new Error("something failed outside promise"));
 // p.then(()=>console.log("done"));
-app.use(cors());
+var whitelist = ['http://localhost:3008', 'http://example2.com']
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+app.use(cors(corsOptions));
 app.use('/api', router)
 
 const port = 3008 

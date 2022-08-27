@@ -8,7 +8,7 @@ const { Sequelize, literal, where } = require("sequelize");
 const { search } = require(".");
 const { QueryTypes } = require("sequelize");
 const sequelize = require("../../../startup/db");
-const { condition } = require("sequelize");
+
 const upsert = async (Model, values, condition) => {
   const obj = await Model.findOne({
     where: condition,
@@ -22,7 +22,8 @@ module.exports = new (class extends controller {
   async getAllEblaghiat(req, res) {
     try {
       const { partition } = req.user;
-      const query = `select * from eblaghies where partition=${partition}`;
+      const cards = req.params.cards;
+      const query = `select * from eblaghies where partition=${partition} and close=${cards}`;
       const result = await sequelize.query(query, { type: QueryTypes.SELECT });
       this.response({ res, message: "ok", data: result });
     } catch (error) {
@@ -101,10 +102,11 @@ module.exports = new (class extends controller {
   async createNewEblaghie(req, res) {
     try {
       const { accessLevel , partition } = req.user;
+      console.log(partition , accessLevel)
       //access lavel => admin =1 , modir = 2 , qc = 3 , operator = 4
       //partition => acrylic = 1 , epoxy = 2 , recycle =3 , polyurtan = 4, shimiaee = 5
       const { 
-        productName,
+        productName,        
         batchNumber,
         batchValue,
         customerName,
@@ -122,10 +124,12 @@ module.exports = new (class extends controller {
         identifyCode,
         startTime,
         endTime,
-        close, 
+        close
          } = req.body;
-         console.log({ 
+        
+           const values = {
           productName,
+          partition,
           batchNumber,
           batchValue,
           customerName,
@@ -144,35 +148,24 @@ module.exports = new (class extends controller {
           startTime,
           endTime,
           close, 
-           })
-
-    //   const values = {
-    //     controlCode: controlCode,
-    //     controlName: controlName,
-    //     partition: partition,
-    //   };
-    //   const conditions = {
-    //     controlCode,
-    //   };
-
-    //   const [controler, created] = await this.Controles.findOrCreate({
-    //     where: conditions,
-    //     defaults: values,
-    //   });
-    //   console.log("created is : ", created);
-    //   created
-    //     ? this.response({
-    //         res,
-    //         message: "new controller created!",
-    //         data: controler,
-    //       })
-    //     : this.response({
-    //         res,
-    //         message: "this control Code exist!",
-    //         data: controler,
-    //       });
-    // } catch (error) {
-    //   console.log(error.message);
+           };
+           const conditons ={
+           batchNumber,
+           
+           }
+       const [ eblaghie , created] = await this.Eblaghieh.findOrCreate({
+        where:conditons,
+        defaults:values,
+       })   
+       console.log(created);
+       created?this.response({
+        res ,
+      message:"new eblaghie created!",
+      data:eblaghie
+      }):this.response({res , message:"this batch number already exist!", data:created})
+    
+     }catch(error){
+      console.log(error.message)
      }
   }
 

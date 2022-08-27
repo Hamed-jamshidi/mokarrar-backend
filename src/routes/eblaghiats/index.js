@@ -5,7 +5,7 @@ const controller = require('./controller')
 
 
 
-router.get('/allEblaghiat',isLoggined, controller.getAllEblaghiat);
+router.get('/allEblaghiat/:cards',isLoggined, controller.getAllEblaghiat);
 router.get('/deleteEblaghies/:eblagheId',isLoggined, controller.deleteEblaghiat);
 router.post('/newEblaghie',isLoggined, controller.createNewEblaghie);
 router.post('/updateControls',isLoggined, controller.editControls);
