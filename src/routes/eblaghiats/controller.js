@@ -19,11 +19,23 @@ const upsert = async (Model, values, condition) => {
   return Model.create(values);
 };
 module.exports = new (class extends controller {
-  async getAllEblaghiat(req, res) {
+  async getAllProducts(req, res) {
     try {
       const { partition } = req.user;
       const cards = req.params.cards;
-      const query = `select * from eblaghies where partition=${partition} and close=${cards}`;
+      const query = `select * from Products where partition=${partition} and close=${cards}`;
+      const result = await sequelize.query(query, { type: QueryTypes.SELECT });
+      this.response({ res, message: "ok", data: result });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async getProcess(req, res) {
+    try {
+      // const { partition } = req.user;
+      const batchNum = "'"+req.params.batchNum+"'";
+      console.log("batch num : ",batchNum)
+      const query = `select * from Processes where batchNumber=${batchNum}`;
       const result = await sequelize.query(query, { type: QueryTypes.SELECT });
       this.response({ res, message: "ok", data: result });
     } catch (error) {
@@ -99,14 +111,146 @@ module.exports = new (class extends controller {
     }
   }
 
-  async createNewEblaghie(req, res) {
+  async createProduct(req, res) {
     try {
-      const { accessLevel , partition } = req.user;
-      console.log(partition , accessLevel)
+      const { accessLevel, partition } = req.user;
+      console.log(partition, accessLevel);
       //access lavel => admin =1 , modir = 2 , qc = 3 , operator = 4
       //partition => acrylic = 1 , epoxy = 2 , recycle =3 , polyurtan = 4, shimiaee = 5
-      const { 
-        productName,        
+      const {
+        productName,
+        batchNumber,
+        batchValue,
+        customerName,
+        produtionType,
+        startDate,
+        sayDate,
+        close,
+      } = req.body;
+
+      const values = {
+        productName,
+        partition,
+        batchNumber,
+        batchValue,
+        customerName,
+        produtionType,
+        startDate,
+        sayDate,
+        close,
+      };
+      const conditons = {
+        batchNumber,
+      };
+      const [product, created] = await this.Products.findOrCreate({
+        where: conditons,
+        defaults: values,
+      });
+      console.log(created);
+      created
+        ? this.response({
+            res,
+            message: "new eblaghie created!",
+            data: product,
+          })
+        : this.response({
+            res,
+            message: "this batch number already exist!",
+            data: created,
+          });
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
+  async createProcess(req, res) {
+    try {
+      const { accessLevel, partition } = req.user;
+      console.log(partition, accessLevel);
+      //access lavel => admin =1 , modir = 2 , qc = 3 , operator = 4
+      //partition => acrylic = 1 , epoxy = 2 , recycle =3 , polyurtan = 4, shimiaee = 5
+      const {
+        batchNumber,
+        actionName,
+        controllerName,
+        operatorName,
+        stationName,
+        acceptValue,
+        result,
+        materialName,
+        measuredValue,
+        identifyCode,
+        startTime,
+        endTime,
+      } = req.body;
+     const FindProduct = await this.Products.findOne({where:{batchNumber}});
+     if (FindProduct) {
+      const values = {
+        batchNumber,
+        actionName,
+        controllerName,
+        operatorName,
+        stationName,
+        acceptValue,
+        result,
+        materialName,
+        measuredValue,
+        identifyCode,
+        startTime,
+        endTime,
+        productId:FindProduct.id
+      };
+      await this.Processes.create(values)
+      .then((response)=>this.response({res, message:"new process created!" , data:response}))
+      .catch((error)=>{console.log(error.message);
+      this.response({res , message:"your process dont created!" , data:error.message})})
+     }
+     
+      const conditons = {
+        batchNumber,
+      };
+     
+     
+      // console.log(FindProduct);
+      // await FindProduct.createProcesses({values})
+    //  await this.Processes.create({
+    //   values
+    //   }, {
+    //     include: [{
+    //       model: this.Products,
+          
+    //     }]
+    //   })
+      // .then((product)=>product.createProcess({values}))
+      // .catch((err)=>console.log(err.message));
+      // const [product, created] = await this.Processes.create({values} , {include:[this.Products]})
+      // //   // where: conditons,
+      // //   defaults: values,
+      // // });
+      // console.log(created);
+      // created
+      //   ? this.response({
+      //       res,
+      //       message: "new eblaghie created!",
+      //       data: product,
+      //     })
+      //   : this.response({
+      //       res,
+      //       message: "this batch number already exist!",
+      //       data: created,
+      //     });
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+  async createNewEblaghie(req, res) {
+    try {
+      const { accessLevel, partition } = req.user;
+      console.log(partition, accessLevel);
+      //access lavel => admin =1 , modir = 2 , qc = 3 , operator = 4
+      //partition => acrylic = 1 , epoxy = 2 , recycle =3 , polyurtan = 4, shimiaee = 5
+      const {
+        productName,
         batchNumber,
         batchValue,
         customerName,
@@ -124,71 +268,74 @@ module.exports = new (class extends controller {
         identifyCode,
         startTime,
         endTime,
-        close
-         } = req.body;
-        
-           const values = {
-          productName,
-          partition,
-          batchNumber,
-          batchValue,
-          customerName,
-          produtType,
-          startDate,
-          sayDate,
-          actionName,
-          controllerName,
-          operatorName,
-          stationName,
-          acceptValue,
-          result,
-          materialName,
-          measuredValue,
-          identifyCode,
-          startTime,
-          endTime,
-          close, 
-           };
-           const conditons ={
-           batchNumber,
-           
-           }
-       const [ eblaghie , created] = await this.Eblaghieh.findOrCreate({
-        where:conditons,
-        defaults:values,
-       })   
-       console.log(created);
-       created?this.response({
-        res ,
-      message:"new eblaghie created!",
-      data:eblaghie
-      }):this.response({res , message:"this batch number already exist!", data:created})
-    
-     }catch(error){
-      console.log(error.message)
-     }
+        close,
+      } = req.body;
+
+      const values = {
+        productName,
+        partition,
+        batchNumber,
+        batchValue,
+        customerName,
+        produtType,
+        startDate,
+        sayDate,
+        actionName,
+        controllerName,
+        operatorName,
+        stationName,
+        acceptValue,
+        result,
+        materialName,
+        measuredValue,
+        identifyCode,
+        startTime,
+        endTime,
+        close,
+      };
+      const conditons = {
+        batchNumber,
+      };
+      const [eblaghie, created] = await this.Eblaghieh.findOrCreate({
+        where: conditons,
+        defaults: values,
+      });
+      console.log(created);
+      created
+        ? this.response({
+            res,
+            message: "new eblaghie created!",
+            data: eblaghie,
+          })
+        : this.response({
+            res,
+            message: "this batch number already exist!",
+            data: created,
+          });
+    } catch (error) {
+      console.log(error.message);
+    }
   }
 
-  async editControls(req, res) {
+  async updateProcess(req, res) {
+   
     try {
-      const { id, controlsCode, controlsName } = req.body;
-      const result = await this.Mission.findOne({ where: { id } });
-
-      if (result === null)
-        this.response({
-          res,
-          message: "sorry! this row isnt exist!",
-          data: result,
-        });
-      else {
-        const query = `update controls set controlCode=${controlsCode} , controlName=${controlsName} , partition= where id =${id}`;
-        await sequelize
-          .query(query)
-          .then((item) =>
-            this.response({ res, message: "ok", data: controlsCode })
-          )
-          .catch((error) => console.log(error.message));
-      }
+      const values = req.body;
+      const result = await this.Processes.update(values,{ where:{id:values.id} })
+      if(result[0])this.response({res , message:"this record is updated!" ,data:result});
+      else this.response({res , message:"update failed!" ,data:result})
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+  async updateProduct(req, res) {   
+    try {
+      const values = req.body;     
+      const result = await this.Products.update(values,{ where:{id:values.id} })
+      if(result[0])this.response({res , message:"this record is updated!" ,data:result});
+      else this.response({res , message:"update failed!" ,data:result})
+     
+    
     } catch (error) {
       console.log(error.message);
     }

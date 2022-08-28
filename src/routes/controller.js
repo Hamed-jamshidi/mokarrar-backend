@@ -4,11 +4,13 @@ const {validationResult} = require('express-validator')
 // const Credit=require('./../models/credit')
 // const License=require('./../models/license')
 const Controles = require("../models/controls");
-const Eblaghieh = require("../models/eblaghieh");
+const Eblaghieh = require("../models/processes");
 const Material = require("../models/material");
 const Mission = require("../models/Mission");
 const Station = require("../models/station");
 const User = require("../models/user");
+const Product = require("../models/products");
+const Processe = require("../models/processes");
 
 module.exports = class {
   constructor() {
@@ -22,6 +24,8 @@ module.exports = class {
     this.Mission = Mission;
     this.Station = Station;
     this.User = User;
+    this.Products = Product;
+    this.Processes = Processe;
   }
 
 validationBody(req ,res){

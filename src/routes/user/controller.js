@@ -55,30 +55,30 @@ module.exports = new (class extends controller {
 
   }
 
-  async login(req, res) {
-    console.log('req.body', req.body)
+  // async login(req, res) {
+  //   console.log('req.body', req.body)
     
-    //  throw new Error('login faild');
-    const user = await this.User.findOne({ where: { username: req.body.username } });
-    console.log('user in the login ' , user);
-    if (!user) {
-      return this.response({
-        res,
-        code: 400,
-        message: 'invalid email or password',
-      })
-    }
-    const inValid = await bcrypt.compare(req.body.password, user.password)
-    if (!inValid) {
-      return this.response({
-        res,
-        code: 400,
-        message: 'invalid email or password',
-      })
-    }
-    const token = jwt.sign({ _id: user.id }, config.get('jwt_key'))
-    this.response({ res, message: 'successful loged in ', data:{"success":true , "token":token}})
-  }
+  //   //  throw new Error('login faild');
+  //   // const user = await this.User.findOne({ where: { username: req.body.username } });
+  //   // console.log('user in the login ' , user);
+  //   // if (!user) {
+  //   //   return this.response({
+  //   //     res,
+  //   //     code: 400,
+  //   //     message: 'invalid email or password',
+  //   //   })
+  //   // }
+  //   // const inValid = await bcrypt.compare(req.body.password, user.password)
+  //   // if (!inValid) {
+  //   //   return this.response({
+  //   //     res,
+  //   //     code: 400,
+  //   //     message: 'invalid email or password',
+  //   //   })
+  //   // }
+  //   // const token = jwt.sign({ _id: user.id }, config.get('jwt_key'))
+  //   // this.response({ res, message: 'successful loged in ', data:{"success":true , "token":token}})
+  // }
   
   async changePassword(req , res){
      console.log("req body",req.body); 
@@ -93,8 +93,9 @@ module.exports = new (class extends controller {
     
   }
  async login(req, res) {
-    const{userName , password} = req.body
-    const user = await this.User.findOne({ where: { username: userName } });
+    const{username , password} = req.body
+    
+    const user = await this.User.findOne({ where: { username: username } });
     console.log('user in the login ' , user);
     if (!user) {
       return this.response({
