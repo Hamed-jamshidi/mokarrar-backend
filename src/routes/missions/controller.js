@@ -57,7 +57,7 @@ module.exports = new (class extends controller {
             message: "new mission created!",
             data: missoin,
           })
-        : this.response({ res, message: "this mission code exists!", data: missoin });
+        : this.response({ res, message: "this mission code exists!",success:false, data: missoin });
     } catch (error) {
       console.log(error.message);
     }
@@ -68,7 +68,7 @@ module.exports = new (class extends controller {
       const { id, missionCode, missionName } = req.body;
       const result = await this.Mission.findOne({where:{id}})
   
-    if (result === null ) this.response({res , message:"sorry! this row isnt exist!",data:result})
+    if (result === null ) this.response({res , message:"sorry! this row isnt exist!",success:false  ,data:result})
      else{
       const query = `update missions set missionCode=${missionCode} , missionName=${missionName} where id =${id}`;
       await sequelize
