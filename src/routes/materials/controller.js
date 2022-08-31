@@ -29,7 +29,7 @@ module.exports = new (class extends controller {
     } catch (error) {
       console.log(error);
     }
-  }
+  } 
 
   async createNewMaterial(req, res) {
     console.log("createNewControls");
@@ -52,7 +52,7 @@ module.exports = new (class extends controller {
             message: "new material created!",
             data: material,
           })
-        : this.response({ res, message: "this material exist!", data: result });
+        : this.response({ res, message: "this material exist!",success:false, data:material });
     } catch (error) {
       console.log(error.message);
     }
@@ -61,12 +61,13 @@ module.exports = new (class extends controller {
   async updateMaterial(req, res) {
     try {
       const { id, materialCode, materialName } = req.body;
-      const result = await this.Mission.findOne({ where: { id } });
+      const result = await this.Material.findOne({ where: { id } });
 
       if (result === null)
         this.response({
           res,
           message: "sorry! this row isnt exist!",
+          success:false,
           data: result,
         });
       else {
@@ -80,7 +81,7 @@ module.exports = new (class extends controller {
           )
           .catch((error) => console.log(error.message));
       }
-    } catch (error) {
+    } catch (error) {  
       console.log(error.message);
     }
   }

@@ -53,7 +53,7 @@ module.exports = new (class extends controller {
             message: "new station created!",
             data: station,
           })
-        : this.response({ res, message: "this station exists!", data: station });
+        : this.response({ res, message: "this station exists!", success:false,data: station });
     } catch (error) {
       console.log(error.message);
     }
@@ -62,13 +62,14 @@ module.exports = new (class extends controller {
   async updateStation(req, res) {
     try {
       const { id, stationCode, stationName } = req.body;
-      const query = `update stations set stationCode=${stationCode} , stationName=${stationName} where id =${id}`;
-      const result = await this.Mission.findOne({where:{id}})
+     
+      const queryStation = `update stations set stationCode=${stationCode} , stationName=${stationName} where id =${id}`;
+      const result = await this.Station.findOne({where:{id}})
   
-      if (result === null ) this.response({res , message:"sorry! this row isnt exist!",data:result})
+      if (result === null ) this.response({res , message:"sorry! this row isnt exist!",success:false,data:result})
       else{
         await sequelize
-        .query(query)
+        .query(queryStation)
         .then(() =>
           this.response({ res, message: "ok", data: stationCode })
         )
