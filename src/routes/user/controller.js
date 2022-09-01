@@ -21,7 +21,8 @@ module.exports = new (class extends controller {
 
   async register(req, res) {
     try {
-      const {firstName ,lastName ,userName , password , accessLevel , partition } = req.body;
+      console.log("user data ................. , " , req.user)
+      const {firstName ,lastName ,userName , password  } = req.body;
       const salt = await bcrypt.genSalt(10)
       const encriptedPassword= await bcrypt.hash(password, salt)
      
@@ -32,8 +33,8 @@ module.exports = new (class extends controller {
           lastname: lastName,
           username: userName,
           password: encriptedPassword,
-          accessLevel: accessLevel,
-          partition: partition,
+          accessLevel: req.body?.accessLevel || 4,
+          partition: req.body?.partition || req.user?.partition
         },
       });
       created

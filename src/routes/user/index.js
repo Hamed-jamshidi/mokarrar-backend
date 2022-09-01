@@ -5,7 +5,7 @@ const controller = require('./controller')
 
 
 router.get('/sayhello', controller.sayHello);
-router.post('/register', controller.register);
+router.post('/register',isLoggined , controller.register);
 router.post('/login', controller.login); 
 router.post('/changePassword',isLoggined ,controller.changePassword);
 // router.get('/percentCreditType', controller.calcPercentCreditType);
