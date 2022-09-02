@@ -32,6 +32,10 @@ module.exports = new (class extends controller {
   }
   async getProcess(req, res) {
     try {
+
+
+
+
       // const { partition } = req.user;
       const batchNum = "'"+req.params.batchNum+"'";
       console.log("batch num : ",batchNum)
