@@ -17,7 +17,3 @@ router.post('/updateProcess',isLoggined, controller.updateProcess);
 
 
 module.exports = router
-
- 
-
-
