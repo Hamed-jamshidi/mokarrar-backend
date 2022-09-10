@@ -7,6 +7,7 @@ const controller = require('./controller')
 
 router.get('/allProducts/:cards',isLoggined, controller.getAllProducts);
 router.get('/getProcess/:batchNum',isLoggined, controller.getProcess);
+router.get('/deleteProcess/:id',isLoggined, controller.deleteProcess);
 router.post('/newProduct',isLoggined, controller.createProduct);
 router.post('/newProcess',isLoggined, controller.createProcess);
 router.post('/updateProduct',isLoggined, controller.updateProduct);
