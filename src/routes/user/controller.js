@@ -15,8 +15,8 @@ const config = require('config')
 
 module.exports = new (class extends controller {
   async sayHello(req, res) {
-    this.response({ res, message: "hello!", data: { message: "hello" } });
-    console.log("hello firest api");
+    this.response({res, message: "hello!", data: { message: "hello" } });
+    console.log("hello first api");
   }
 
   async register(req, res) {
@@ -97,7 +97,7 @@ module.exports = new (class extends controller {
     const{username , password} = req.body
     
     const user = await this.User.findOne({ where: { username: username } });
-    console.log('user in the login ' , user);
+    console.log('user in the login' , user);
     if (!user) {
       return this.response({
         res,
@@ -114,7 +114,7 @@ module.exports = new (class extends controller {
       })
     }
     const token = jwt.sign({ userId: user.id , partition:user.partition,accessLevel:user.accessLevel },"sherkatmavadmohandesimokarrar")
-    this.response({ res, message: 'successful loged in ', data:{"success":true , "token":token}})
+    this.response({ res, message: 'successful loged in ', data:{"success":true ,partition:user.partition, "token":token}})
   }
   
   async changePassword(req , res){
