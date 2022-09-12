@@ -294,9 +294,22 @@ module.exports = new (class extends controller {
         startTime,
         endTime,
       } = req.body;
+      console.log( batchNumber,
+        actionName,
+        controllerName,
+        operatorName,
+        stationName,
+        acceptValue,
+        result,
+        materialName,
+        measuredValue,
+        identifyCode,
+        startTime,
+        endTime)
       const FindProduct = await this.Products.findOne({
         where: { batchNumber },
       });
+      console.log(FindProduct)
       if (FindProduct) {
         const values = {
           batchNumber,
@@ -313,6 +326,7 @@ module.exports = new (class extends controller {
           endTime,
           productId: FindProduct.id,
         };
+        console.log("values ,,,,,,," ,values)
         await this.Processes.create(values)
           .then((response) =>
             this.response({
@@ -367,6 +381,7 @@ module.exports = new (class extends controller {
       console.log(error.message);
     }
   }
+
   async createNewEblaghie(req, res) {
     try {
       const { accessLevel, partition } = req.user;

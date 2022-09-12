@@ -2,16 +2,9 @@ const express = require('express');
 const { isLoggined } = require('../../middlewares/auth');
 const router = express.Router()
 const controller = require('./controller')
-
-
-
 router.get('/allProducts/:cards',isLoggined, controller.getAllProducts);
 router.get('/getProcess/:batchNum',isLoggined, controller.getProcess);
-npm
-
-
 router.get('/deleteProcess/:processId',isLoggined, controller.deleteProcess);
-
 router.post('/newProduct',isLoggined, controller.createProduct);
 router.post('/newProcess',isLoggined, controller.createProcess);
 router.post('/updateProduct',isLoggined, controller.updateProduct);
