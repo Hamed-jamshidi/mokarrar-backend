@@ -7,7 +7,7 @@ const controller = require('./controller')
 
 router.get('/allProducts/:cards',isLoggined, controller.getAllProducts);
 router.get('/getProcess/:batchNum',isLoggined, controller.getProcess);
-
+npm
 
 
 router.get('/deleteProcess/:processId',isLoggined, controller.deleteProcess);
