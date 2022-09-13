@@ -320,7 +320,7 @@ module.exports = new (class extends controller {
           acceptValue,
           result,
           materialName,
-          measuredValue,
+          measuredValue, 
           identifyCode,
           startTime,
           endTime,
@@ -344,9 +344,9 @@ module.exports = new (class extends controller {
             });
           });
       }
-
+ 
       const conditons = {
-        batchNumber,
+        batchNumber, 
       };
 
       // console.log(FindProduct);
