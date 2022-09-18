@@ -21,9 +21,22 @@ const upsert = async (Model, values, condition) => {
 module.exports = new (class extends controller {
 
 
+  async getControlByCode(req, res) {
+    try {
+      const { partition } = req.user;
+      const code = req.params.code
+      const query = `select * from controls where partition=${partition} and controlCode=${code}`;
+      const result = await sequelize.query(query, { type: QueryTypes.SELECT });
+      console.log("result is" ,result)
+      this.response({ res, message: "ok", data:result[0]?.controlName});
+    } catch (error) {
+      console.log(error);
+    }
+  }
   async getAllControls(req, res) {
     try {
       const { partition } = req.user;
+      
       const query = `select * from controls where partition=${partition}`;
       const result = await sequelize.query(query, { type: QueryTypes.SELECT });
       this.response({ res, message: "ok", data: result });

@@ -19,6 +19,17 @@ module.exports = new (class extends controller {
       console.log(error);
     }
   }
+  async getMatrialByCode(req, res) {
+    try {
+      const { partition } = req.user;
+      const code = req.params.code;
+      const query = `select * from materials where partition=${partition} and materialCode=${code}`;
+      const result = await sequelize.query(query, { type: QueryTypes.SELECT });
+      this.response({ res, message: "ok", data: result[0]?.materialName });
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   async deleteMaterial(req, res) {
     try {

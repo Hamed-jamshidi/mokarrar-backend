@@ -326,7 +326,7 @@ module.exports = new (class extends controller {
           endTime,
           productId: FindProduct.id,
         };
-        console.log("values ,,,,,,," ,values)
+        console.log("values " ,values);
         await this.Processes.create(values)
           .then((response) =>
             this.response({
@@ -339,7 +339,7 @@ module.exports = new (class extends controller {
             console.log(error.message);
             this.response({
               res,
-              message: "your process dont created!",
+              message:"your process dont created!",
               data: error.message,
             });
           });

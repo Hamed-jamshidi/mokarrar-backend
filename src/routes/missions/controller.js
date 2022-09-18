@@ -14,6 +14,18 @@ module.exports = new (class extends controller {
     console.log("hello firest api");
   }
 
+  async getMissionByCode(req, res) {
+    try {
+      console.log("hello")
+      const { partition } = req.user;
+      const code= req.params.code;
+      const query = `select * from missions where partition=${partition} and missionCode=${code}`;
+      const result = await sequelize.query(query, { type: QueryTypes.SELECT });
+      this.response({ res, message: "ok", data: result[] });
+    } catch (error) {
+      console.log(error);
+    }
+  }
   async getAllMissions(req, res) {
     try {
       console.log("hello")

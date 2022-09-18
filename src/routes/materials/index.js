@@ -6,6 +6,7 @@ const controller = require('./controller')
 
 
 router.get('/allMaterials',isLoggined, controller.getAllMatrials);
+router.get('/allMaterials/:code',isLoggined, controller.getMatrialByCode);
 router.get('/deleteMaterial/:materialId',isLoggined, controller.deleteMaterial);
 router.post('/createMaterial',isLoggined, controller.createNewMaterial);
 router.post('/updateMaterial',isLoggined, controller.updateMaterial);
