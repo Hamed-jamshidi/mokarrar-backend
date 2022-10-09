@@ -21,7 +21,7 @@ module.exports = new (class extends controller {
       const code= req.params.code;
       const query = `select * from missions where partition=${partition} and missionCode=${code}`;
       const result = await sequelize.query(query, { type: QueryTypes.SELECT });
-      this.response({ res, message: "ok", data: result[] });
+      this.response({ res, message: "ok", data: result });
     } catch (error) {
       console.log(error);
     }
@@ -97,3 +97,4 @@ module.exports = new (class extends controller {
     }
   }
 })();
+                              
