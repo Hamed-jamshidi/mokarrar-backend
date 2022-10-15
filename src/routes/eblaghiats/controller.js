@@ -23,8 +23,9 @@ module.exports = new (class extends controller {
     try {
       const { partition } = req.user;
       const cards = req.params.cards;
-      const query = `select * from Products where partition=${partition} and close=${cards}`;
-      const result = await sequelize.query(query, { type: QueryTypes.SELECT });
+      // const query = `select * from Products where partition=${partition} and close=${cards}`;
+      // const result = await sequelize.query(query, { type: QueryTypes.SELECT });
+      const result = await this.Products.findAll({include: this.Processes, where:{partition:partition , close:cards}  })
       this.response({ res, message: "ok", data: result });
     } catch (error) {
       console.log(error);

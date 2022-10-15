@@ -15,6 +15,7 @@ const cors = require("cors");
 
 require('./startup/config')(app, express)
 Processes.belongsTo(Products);
+Products.hasMany(Processes);
 // License.belongsTo(User);
 // User.hasMany(Credit);
 // User.hasMany(License);
