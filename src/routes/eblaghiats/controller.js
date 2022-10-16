@@ -26,7 +26,7 @@ module.exports = new (class extends controller {
       // const query = `select * from Products where partition=${partition} and close=${cards}`;
       // const result = await sequelize.query(query, { type: QueryTypes.SELECT });
       const result = await this.Products.findAll({include: this.Processes, where:{partition:partition , close:cards}  })
-      this.response({ res, message: "ok", data: result });
+      this.response({ res, message: "ok", data: result });          
     } catch (error) {
       console.log(error);
     }
@@ -37,10 +37,7 @@ module.exports = new (class extends controller {
       const batchNum = "'" + req.params.batchNum + "'";
       console.log("batch num : ", batchNum);
       const query = `select * from Processes where batchNumber=${batchNum}`;
-      const result = await
-      
-      
-      sequelize.query(query, { type: QueryTypes.SELECT });
+      const result = await sequelize.query(query, { type: QueryTypes.SELECT });
       this.response({ res, message: "ok", data: result });
     } catch (error) {
       console.log(error);
@@ -48,10 +45,6 @@ module.exports = new (class extends controller {
   }
   async deleteProcess(req, res) {
     try {
-
-
-
-
       // const { partition } = req.user;
       const batchNum = "'"+req.params.batchNum+"'";
       console.log("batch num : ",batchNum)
