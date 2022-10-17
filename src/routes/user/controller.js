@@ -88,7 +88,7 @@ module.exports = new (class extends controller {
       })
     }
     const token = jwt.sign({ userId: user.id , partition:user.partition,accessLevel:user.accessLevel },"sherkatmavadmohandesimokarrar")
-    this.response({ res, message: 'successful loged in ', data:{"success":true,accessLevel:user.accessLevel ,partition:user.partition, "token":token}})
+    this.response({ res, message: 'successful loged in ', data:{"success":true,"accessLevel":user.accessLevel ,"partition":user.partition, "token":token}})
   } 
   
   async changePassword(req , res){
@@ -100,7 +100,6 @@ module.exports = new (class extends controller {
       user.save();
       this.response({res, message:"password changed!" , data:user});
     }).catch((err)=>console.log(err.message));
-   
     
   }
 
