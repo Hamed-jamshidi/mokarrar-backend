@@ -68,7 +68,8 @@ module.exports = new (class extends controller {
     
   }
  async login(req, res) {
-    const{username , password} = req.body
+    const{username , password} = req.body;
+    console.log('i am in login')
     
     const user = await this.User.findOne({ where: { username: username } });
     console.log('user in the login' , user);
@@ -103,5 +104,5 @@ module.exports = new (class extends controller {
     
   }
 
-
+ 
 })();
